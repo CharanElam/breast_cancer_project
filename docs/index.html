@@ -4,34 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Breast Cancer Classification — COMP 381</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet" />
   <style>
-    /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --pink:    #e91e8c;
-      --pink-lt: #f472b6;
-      --dark:    #0f0f1a;
-      --card:    #161627;
-      --border:  #2a2a45;
-      --text:    #e2e2f0;
-      --muted:   #8888aa;
-      --green:   #22c55e;
-      --blue:    #60a5fa;
-      --purple:  #a78bfa;
-      --orange:  #fb923c;
+      --navy:      #1a3353;
+      --navy-lt:   #2b5282;
+      --teal:      #0d6e6e;
+      --teal-lt:   #0f9090;
+      --bg:        #f4f6f9;
+      --surface:   #ffffff;
+      --border:    #d8e0ec;
+      --border-lt: #eaeff7;
+      --text:      #1a2332;
+      --muted:     #546480;
+      --muted-lt:  #8494aa;
+      --green:     #166534;
+      --green-bg:  #f0fdf4;
+      --green-bd:  #bbf7d0;
+      --accent-bg: #eff6ff;
+      --accent-bd: #bfdbfe;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--dark);
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
       color: var(--text);
       line-height: 1.65;
+      font-size: 15px;
     }
 
-    a { color: var(--pink-lt); text-decoration: none; }
+    a { color: var(--navy-lt); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
     /* ── Nav ── */
@@ -39,83 +47,119 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(15, 15, 26, 0.92);
-      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 2rem;
+      padding: 0 2.5rem;
       height: 56px;
     }
 
     .nav-brand {
       font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--pink-lt);
-      letter-spacing: 0.02em;
+      font-size: 0.88rem;
+      color: var(--navy);
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
     }
 
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 0.25rem;
       list-style: none;
     }
 
     .nav-links a {
-      font-size: 0.875rem;
+      font-size: 0.83rem;
+      font-weight: 500;
       color: var(--muted);
-      transition: color 0.2s;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
     }
 
     .nav-links a:hover {
-      color: var(--text);
+      background: var(--bg);
+      color: var(--navy);
       text-decoration: none;
     }
 
     /* ── Hero ── */
     .hero {
-      text-align: center;
-      padding: 6rem 2rem 4rem;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(233,30,140,0.12) 0%, transparent 70%);
+      background: var(--surface);
       border-bottom: 1px solid var(--border);
+      padding: 5rem 2.5rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero-badge {
-      display: inline-block;
-      background: rgba(233,30,140,0.15);
-      border: 1px solid rgba(233,30,140,0.4);
-      color: var(--pink-lt);
-      font-size: 0.78rem;
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(26,51,83,0.035) 0%, transparent 60%),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(26,51,83,0.03) 80px),
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(26,51,83,0.03) 80px);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-bd);
+      color: var(--navy-lt);
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
+      padding: 0.3rem 1rem;
       border-radius: 999px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
     }
 
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.25rem);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #fff 30%, var(--pink-lt));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(1.9rem, 4.5vw, 3rem);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--navy);
+      margin-bottom: 1.1rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .hero p {
-      max-width: 640px;
-      margin: 0 auto 2rem;
+    .hero h1 em {
+      font-style: italic;
+      color: var(--teal);
+    }
+
+    .hero-sub {
+      max-width: 600px;
+      margin: 0 auto 2.25rem;
       color: var(--muted);
-      font-size: 1.05rem;
+      font-size: 1rem;
+      line-height: 1.7;
     }
 
     .hero-actions {
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       justify-content: center;
       flex-wrap: wrap;
     }
@@ -123,187 +167,274 @@
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      padding: 0.6rem 1.4rem;
-      border-radius: 8px;
+      gap: 0.4rem;
+      padding: 0.55rem 1.25rem;
+      border-radius: 7px;
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: opacity 0.2s, transform 0.15s;
+      font-size: 0.85rem;
+      transition: box-shadow 0.15s, transform 0.15s, opacity 0.15s;
+      letter-spacing: 0.01em;
     }
 
-    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
+    .btn:hover { transform: translateY(-1px); text-decoration: none; }
 
     .btn-primary {
-      background: var(--pink);
+      background: var(--navy);
       color: #fff;
+      box-shadow: 0 1px 3px rgba(26,51,83,0.25);
     }
 
+    .btn-primary:hover { box-shadow: 0 4px 12px rgba(26,51,83,0.3); }
+
     .btn-outline {
-      border: 1px solid var(--border);
-      color: var(--text);
-      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--navy);
+      background: var(--surface);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
     }
+
+    .btn-outline:hover { border-color: var(--navy-lt); box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
 
     /* ── Stats Strip ── */
     .stats-strip {
+      background: var(--navy);
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 0;
-      border-bottom: 1px solid var(--border);
     }
 
     .stat {
       flex: 1;
-      min-width: 160px;
-      max-width: 240px;
+      min-width: 150px;
+      max-width: 220px;
       text-align: center;
-      padding: 2rem 1rem;
-      border-right: 1px solid var(--border);
+      padding: 1.75rem 1rem;
+      border-right: 1px solid rgba(255,255,255,0.1);
     }
 
     .stat:last-child { border-right: none; }
 
     .stat-value {
-      font-size: 2rem;
+      font-size: 1.9rem;
       font-weight: 800;
-      color: var(--pink-lt);
+      color: #fff;
+      letter-spacing: -0.02em;
     }
 
     .stat-label {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.25rem;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.55);
+      margin-top: 0.3rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+    }
+
+    /* ── Page body wrapper ── */
+    .page-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
 
     /* ── Sections ── */
     section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
+      padding: 4.5rem 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    section + section {
-      border-top: 1px solid var(--border);
-    }
+    section:last-of-type { border-bottom: none; }
 
     .section-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--pink);
-      margin-bottom: 0.6rem;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
     }
 
     h2 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 800;
-      margin-bottom: 1rem;
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.85rem;
     }
 
     .section-intro {
       max-width: 680px;
       color: var(--muted);
-      margin-bottom: 3rem;
-      font-size: 1rem;
+      margin-bottom: 2.75rem;
+      font-size: 0.97rem;
+      line-height: 1.75;
+    }
+
+    /* ── Overview cards ── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .overview-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .overview-card:hover {
+      box-shadow: 0 4px 16px rgba(26,51,83,0.08);
+      border-color: var(--navy-lt);
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-bd);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.9rem;
+      color: var(--navy-lt);
+    }
+
+    .overview-card h3 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+
+    .overview-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
     }
 
     /* ── Pipeline ── */
     .pipeline {
-      display: flex;
-      align-items: flex-start;
-      gap: 0;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      position: relative;
     }
 
     .pipe-step {
-      flex: 1;
-      min-width: 180px;
-      position: relative;
-      padding: 1.5rem 1.25rem 1.5rem 1.5rem;
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      margin: 0.5rem;
+      border-radius: 10px;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .pipe-step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--teal);
+      border-radius: 10px 10px 0 0;
     }
 
     .pipe-number {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
-      background: rgba(233,30,140,0.2);
-      border: 1px solid var(--pink);
-      color: var(--pink-lt);
-      font-size: 0.8rem;
+      background: var(--navy);
+      color: #fff;
+      font-size: 0.75rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.8rem;
     }
 
     .pipe-step h3 {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
+      color: var(--navy);
       margin-bottom: 0.4rem;
     }
 
     .pipe-step p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .chip {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .dataset-note {
+      margin-top: 1.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--teal);
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem;
       font-size: 0.83rem;
       color: var(--muted);
     }
 
-    .pipe-step .chip {
-      display: inline-block;
-      margin-top: 0.6rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      background: rgba(96,165,250,0.12);
-      border: 1px solid rgba(96,165,250,0.3);
-      color: var(--blue);
-    }
+    .dataset-note strong { color: var(--navy); }
 
     /* ── Results Table ── */
     .table-wrap {
       overflow-x: auto;
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     thead {
-      background: rgba(255,255,255,0.04);
+      background: var(--bg);
     }
 
     th {
-      padding: 0.85rem 1.2rem;
+      padding: 0.8rem 1.25rem;
       text-align: left;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       color: var(--muted);
       border-bottom: 1px solid var(--border);
+      white-space: nowrap;
     }
 
     td {
-      padding: 0.85rem 1.2rem;
-      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border-lt);
+      vertical-align: middle;
     }
 
     tr:last-child td { border-bottom: none; }
-
-    tr:hover td { background: rgba(255,255,255,0.025); }
+    tr:hover td { background: var(--bg); }
 
     .best {
       color: var(--green);
@@ -312,20 +443,31 @@
 
     .model-name {
       font-weight: 600;
-      color: var(--text);
+      color: var(--navy);
     }
 
-    /* ── Metric bar ── */
+    .model-sub {
+      font-size: 0.73rem;
+      color: var(--muted-lt);
+      margin-top: 0.15rem;
+    }
+
     .bar-wrap {
       display: flex;
       align-items: center;
       gap: 0.6rem;
     }
 
+    .bar-num {
+      font-weight: 600;
+      min-width: 42px;
+      font-size: 0.87rem;
+    }
+
     .bar-bg {
       flex: 1;
-      height: 6px;
-      background: rgba(255,255,255,0.07);
+      height: 5px;
+      background: var(--border-lt);
       border-radius: 3px;
       overflow: hidden;
     }
@@ -333,21 +475,35 @@
     .bar-fill {
       height: 100%;
       border-radius: 3px;
-      background: linear-gradient(90deg, var(--pink), var(--pink-lt));
+      background: linear-gradient(90deg, var(--teal), var(--teal-lt));
     }
+
+    .clinical-note {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: var(--green-bg);
+      border: 1px solid var(--green-bd);
+      border-left: 3px solid #22c55e;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.83rem;
+      color: #166534;
+    }
+
+    .clinical-note strong { font-weight: 700; }
 
     /* ── Charts ── */
     .charts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     .chart-card {
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 10px;
       overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
 
     .chart-card.wide {
@@ -355,73 +511,76 @@
     }
 
     .chart-header {
-      padding: 1.25rem 1.5rem 0.75rem;
-      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-lt);
+      background: var(--bg);
     }
 
     .chart-header h3 {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
+      color: var(--navy);
     }
 
     .chart-header p {
-      font-size: 0.8rem;
+      font-size: 0.77rem;
       color: var(--muted);
-      margin-top: 0.2rem;
+      margin-top: 0.15rem;
     }
 
     .chart-card img {
       width: 100%;
       display: block;
-      background: #fff;
     }
 
     /* ── Team ── */
     .team-grid {
       display: flex;
-      gap: 1.5rem;
+      gap: 1.25rem;
       flex-wrap: wrap;
     }
 
     .team-card {
       flex: 1;
       min-width: 200px;
-      background: var(--card);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.75rem;
+      border-radius: 10px;
+      padding: 1.75rem 1.5rem;
       text-align: center;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: box-shadow 0.2s, border-color 0.2s;
     }
 
     .team-card:hover {
-      border-color: var(--pink);
-      transform: translateY(-3px);
+      box-shadow: 0 4px 16px rgba(26,51,83,0.1);
+      border-color: var(--navy-lt);
     }
 
     .avatar {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      background: var(--navy);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #fff;
       margin: 0 auto 1rem;
+      letter-spacing: 0.04em;
     }
 
     .team-card h3 {
-      font-size: 1rem;
+      font-size: 0.97rem;
       font-weight: 700;
-      margin-bottom: 0.25rem;
+      color: var(--navy);
+      margin-bottom: 0.2rem;
     }
 
     .team-card .role {
-      font-size: 0.8rem;
-      color: var(--muted);
+      font-size: 0.78rem;
+      color: var(--muted-lt);
       margin-bottom: 1rem;
     }
 
@@ -429,37 +588,50 @@
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
+      font-weight: 500;
       color: var(--muted);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 0.35rem 0.75rem;
-      transition: color 0.2s, border-color 0.2s;
+      padding: 0.35rem 0.8rem;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
     }
 
     .github-link:hover {
-      color: var(--text);
-      border-color: var(--pink);
+      color: var(--navy);
+      border-color: var(--navy-lt);
+      background: var(--accent-bg);
       text-decoration: none;
     }
 
     /* ── Footer ── */
     footer {
-      border-top: 1px solid var(--border);
+      background: var(--navy);
       text-align: center;
       padding: 2.5rem 2rem;
-      color: var(--muted);
-      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.8rem;
     }
 
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--text); }
+    footer a { color: rgba(255,255,255,0.65); }
+    footer a:hover { color: #fff; text-decoration: none; }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
 
     /* ── Responsive ── */
     @media (max-width: 640px) {
       .nav-links { display: none; }
       .charts-grid { grid-template-columns: 1fr; }
-      .stat { min-width: 130px; }
+      .stat { min-width: 120px; }
+      nav { padding: 0 1.25rem; }
+      .hero { padding: 3.5rem 1.25rem 2.5rem; }
+      .page-body { padding: 0 1.25rem; }
     }
   </style>
 </head>
@@ -467,10 +639,13 @@
 
 <!-- ── Navigation ── -->
 <nav>
-  <span class="nav-brand">Breast Cancer Classification</span>
+  <span class="nav-brand">
+    <span class="nav-brand-dot"></span>
+    Breast Cancer Classification
+  </span>
   <ul class="nav-links">
     <li><a href="#overview">Overview</a></li>
-    <li><a href="#pipeline">Pipeline</a></li>
+    <li><a href="#pipeline">Methodology</a></li>
     <li><a href="#results">Results</a></li>
     <li><a href="#charts">Charts</a></li>
     <li><a href="#team">Team</a></li>
@@ -479,19 +654,21 @@
 
 <!-- ── Hero ── -->
 <header class="hero">
-  <div class="hero-badge">COMP 381 &mdash; University of the Fraser Valley</div>
-  <h1>Breast Cancer Classification<br>via Deep Feature Extraction</h1>
-  <p>
+  <div class="hero-eyebrow">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="5" cy="5" r="1.5" fill="currentColor"/></svg>
+    COMP 381 &mdash; University of the Fraser Valley
+  </div>
+  <h1>Breast Cancer Classification<br>via <em>Deep Feature Extraction</em></h1>
+  <p class="hero-sub">
     Classifying breast ultrasound images as <strong>benign</strong> or <strong>malignant</strong>
-    using transfer learning and classical machine learning classifiers.
+    using VGG16 transfer learning, PCA dimensionality reduction, and classical machine learning classifiers.
   </p>
   <div class="hero-actions">
     <a class="btn btn-primary" href="https://github.com/CharanElam/breast-cancer-analysis" target="_blank">
-      <!-- GitHub icon -->
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
       View on GitHub
     </a>
-    <a class="btn btn-outline" href="#results">See Results</a>
+    <a class="btn btn-outline" href="#results">View Results</a>
   </div>
 </header>
 
@@ -507,7 +684,7 @@
   </div>
   <div class="stat">
     <div class="stat-value">0.863</div>
-    <div class="stat-label">Best AUC Score</div>
+    <div class="stat-label">Best AUC</div>
   </div>
   <div class="stat">
     <div class="stat-value">4</div>
@@ -519,268 +696,275 @@
   </div>
 </div>
 
-<!-- ── Overview ── -->
-<section id="overview">
-  <p class="section-label">About</p>
-  <h2>Project Overview</h2>
-  <p class="section-intro">
-    Early detection of breast cancer dramatically improves patient outcomes. This project
-    investigates whether classical ML classifiers — trained on deep visual features from a
-    pretrained convolutional neural network — can accurately distinguish malignant from
-    benign tumors in breast ultrasound images.
-  </p>
+<!-- ── Page content ── -->
+<div class="page-body">
 
-  <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-    <div style="flex:1; min-width:220px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.5rem;">
-      <div style="font-size:1.5rem; margin-bottom:0.5rem;">🔬</div>
-      <h3 style="font-size:0.95rem; margin-bottom:0.4rem;">Transfer Learning</h3>
-      <p style="font-size:0.83rem; color:var(--muted);">VGG16 pretrained on ImageNet extracts rich 25,088-dimensional spatial features without training from scratch.</p>
-    </div>
-    <div style="flex:1; min-width:220px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.5rem;">
-      <div style="font-size:1.5rem; margin-bottom:0.5rem;">📉</div>
-      <h3 style="font-size:0.95rem; margin-bottom:0.4rem;">Dimensionality Reduction</h3>
-      <p style="font-size:0.83rem; color:var(--muted);">PCA reduces features from 25,088 to 70 components, preventing overfitting while preserving discriminative structure.</p>
-    </div>
-    <div style="flex:1; min-width:220px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.5rem;">
-      <div style="font-size:1.5rem; margin-bottom:0.5rem;">🩺</div>
-      <h3 style="font-size:0.95rem; margin-bottom:0.4rem;">Clinical Threshold Tuning</h3>
-      <p style="font-size:0.83rem; color:var(--muted);">Lowering the decision threshold to 0.3 boosts malignant recall from 80% → 89%, reducing missed cancer diagnoses.</p>
-    </div>
-    <div style="flex:1; min-width:220px; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.5rem;">
-      <div style="font-size:1.5rem; margin-bottom:0.5rem;">🔵</div>
-      <h3 style="font-size:0.95rem; margin-bottom:0.4rem;">Unsupervised Clustering</h3>
-      <p style="font-size:0.83rem; color:var(--muted);">ResNet50 features fed into K-Means (k=2, k=3) reveal natural groupings in the image data without using labels.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── Pipeline ── -->
-<section id="pipeline">
-  <p class="section-label">Methodology</p>
-  <h2>Project Pipeline</h2>
-  <p class="section-intro">
-    A four-stage workflow from raw ultrasound images to evaluated classifiers.
-  </p>
-
-  <div class="pipeline">
-    <div class="pipe-step">
-      <div class="pipe-number">1</div>
-      <h3>Data Exploration</h3>
-      <p>Inspect image counts (437 benign, 210 malignant), verify class distribution, and examine image dimensions.</p>
-      <span class="chip">01-data-exploration.ipynb</span>
-    </div>
-    <div class="pipe-step">
-      <div class="pipe-number">2</div>
-      <h3>Feature Extraction</h3>
-      <p>VGG16 (ImageNet weights, top removed) processes each 224×224 image into a 7×7×512 feature map, saved as <code>.npy</code> arrays.</p>
-      <span class="chip">02-data-processing.ipynb</span>
-    </div>
-    <div class="pipe-step">
-      <div class="pipe-number">3</div>
-      <h3>Supervised Training</h3>
-      <p>StandardScaler → PCA(70) → 80/20 split → Logistic Regression, KNN, and SVM trained and evaluated with confusion matrices, ROC, and AUC.</p>
-      <span class="chip">03-model-training.ipynb</span>
-    </div>
-    <div class="pipe-step">
-      <div class="pipe-number">4</div>
-      <h3>Unsupervised Clustering</h3>
-      <p>ResNet50 extracts 2048-dim features. K-Means with k=2 and k=3 clusters images without labels; PCA visualizes separation.</p>
-      <span class="chip">04-unsupervised-model.ipynb</span>
-    </div>
-  </div>
-
-  <div style="margin-top:2rem; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem;">
-    <p style="font-size:0.83rem; color:var(--muted);">
-      <strong style="color:var(--text);">Dataset:</strong> ~647 breast ultrasound PNG images.
-      Raw images are not stored in this repository.
-      <a href="https://drive.google.com/drive/folders/1VtW8dB1ru4QY1O1aw2skS9j_eg44t-zR?usp=sharing" target="_blank">Download from Google Drive →</a>
+  <!-- ── Overview ── -->
+  <section id="overview">
+    <p class="section-label">About</p>
+    <h2>Project Overview</h2>
+    <p class="section-intro">
+      Early detection of breast cancer significantly improves patient survival rates. This project
+      investigates whether classical machine learning classifiers — trained on deep visual features
+      extracted from a pretrained convolutional neural network — can reliably distinguish malignant
+      from benign tumors in breast ultrasound images.
     </p>
-  </div>
-</section>
 
-<!-- ── Results ── -->
-<section id="results">
-  <p class="section-label">Evaluation</p>
-  <h2>Model Results</h2>
-  <p class="section-intro">
-    All models evaluated on a held-out test set of 130 images (20% of dataset).
-    Metrics reported for the malignant (positive) class.
-  </p>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Model</th>
-          <th>Accuracy</th>
-          <th>Precision</th>
-          <th>Recall</th>
-          <th>F1 Score</th>
-          <th>AUC</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <span class="model-name">Logistic Regression</span><br>
-            <span style="font-size:0.75rem; color:var(--muted);">threshold = 0.5</span>
-          </td>
-          <td>
-            <div class="bar-wrap">
-              <span class="best">89.2%</span>
-              <div class="bar-bg"><div class="bar-fill" style="width:89.2%"></div></div>
-            </div>
-          </td>
-          <td>0.800</td>
-          <td>0.800</td>
-          <td>0.800</td>
-          <td class="best">0.863</td>
-        </tr>
-        <tr>
-          <td>
-            <span class="model-name">Logistic Regression</span><br>
-            <span style="font-size:0.75rem; color:var(--muted);">threshold = 0.3 (higher recall)</span>
-          </td>
-          <td>
-            <div class="bar-wrap">
-              <span>83.8%</span>
-              <div class="bar-bg"><div class="bar-fill" style="width:83.8%; opacity:0.6"></div></div>
-            </div>
-          </td>
-          <td>0.646</td>
-          <td class="best">0.886</td>
-          <td>0.747</td>
-          <td>0.853</td>
-        </tr>
-        <tr>
-          <td>
-            <span class="model-name">K-Nearest Neighbors</span><br>
-            <span style="font-size:0.75rem; color:var(--muted);">k = 7</span>
-          </td>
-          <td>
-            <div class="bar-wrap">
-              <span>84.6%</span>
-              <div class="bar-bg"><div class="bar-fill" style="width:84.6%; opacity:0.6"></div></div>
-            </div>
-          </td>
-          <td>0.727</td>
-          <td>0.686</td>
-          <td>0.706</td>
-          <td>0.795</td>
-        </tr>
-        <tr>
-          <td>
-            <span class="model-name">Support Vector Machine</span><br>
-            <span style="font-size:0.75rem; color:var(--muted);">RBF kernel, C=10</span>
-          </td>
-          <td>
-            <div class="bar-wrap">
-              <span class="best">89.2%</span>
-              <div class="bar-bg"><div class="bar-fill" style="width:89.2%"></div></div>
-            </div>
-          </td>
-          <td class="best">0.818</td>
-          <td>0.771</td>
-          <td class="best">0.794</td>
-          <td>0.854</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div style="margin-top:1.25rem; padding:1rem 1.25rem; background:rgba(233,30,140,0.06); border:1px solid rgba(233,30,140,0.2); border-radius:10px; font-size:0.85rem; color:var(--muted);">
-    <strong style="color:var(--pink-lt);">Clinical note:</strong>
-    In a medical context, <em>missing a malignant case is far more costly than a false alarm</em>.
-    The threshold-0.3 Logistic Regression sacrifices overall accuracy to achieve the highest
-    malignant recall (88.6%), making it the most clinically conservative choice.
-  </div>
-</section>
-
-<!-- ── Charts ── -->
-<section id="charts">
-  <p class="section-label">Visualizations</p>
-  <h2>Result Charts</h2>
-  <p class="section-intro">
-    Confusion matrices, ROC curves, and metric comparisons across all models.
-  </p>
-
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-header">
-        <h3>Confusion Matrices</h3>
-        <p>Predicted vs. true labels for each model on the test set</p>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Transfer Learning</h3>
+        <p>VGG16 pretrained on ImageNet extracts 25,088-dimensional spatial features from each image without training from scratch.</p>
       </div>
-      <img src="images/confusion_matrices.png" alt="Confusion matrices for all models" loading="lazy" />
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-header">
-        <h3>ROC Curve Comparison</h3>
-        <p>LogReg AUC 0.86 · SVM AUC 0.85 · KNN AUC 0.80</p>
+      <div class="overview-card">
+        <div class="card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Dimensionality Reduction</h3>
+        <p>PCA compresses features from 25,088 to 70 components, addressing overfitting while retaining discriminative structure.</p>
       </div>
-      <img src="images/roc_curves.png" alt="ROC curves comparing all models" loading="lazy" />
-    </div>
-
-    <div class="chart-card wide">
-      <div class="chart-header">
-        <h3>Metric Comparisons</h3>
-        <p>Accuracy, Recall, Precision, and F1 Score across all four models</p>
+      <div class="overview-card">
+        <div class="card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h3>Clinical Threshold Tuning</h3>
+        <p>Lowering the decision threshold to 0.3 raises malignant recall from 80% to 89%, reducing the cost of missed diagnoses.</p>
       </div>
-      <img src="images/comparisons.png" alt="Bar chart comparison of all metrics across models" loading="lazy" />
+      <div class="overview-card">
+        <div class="card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="9" x2="7" y2="6.5"/><line x1="12" y1="9" x2="17" y2="6.5"/><line x1="12" y1="15" x2="7" y2="17.5"/><line x1="12" y1="15" x2="17" y2="17.5"/></svg>
+        </div>
+        <h3>Unsupervised Clustering</h3>
+        <p>ResNet50 features fed into K-Means (k=2, k=3) reveal natural image groupings without the use of ground-truth labels.</p>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Team ── -->
-<section id="team">
-  <p class="section-label">Contributors</p>
-  <h2>Meet the Team</h2>
-  <p class="section-intro">
-    Built for COMP 381 — Introduction to Machine Learning at the University of the Fraser Valley.
-  </p>
+  <!-- ── Pipeline ── -->
+  <section id="pipeline">
+    <p class="section-label">Methodology</p>
+    <h2>Project Pipeline</h2>
+    <p class="section-intro">
+      A four-stage workflow from raw ultrasound images to evaluated classifiers.
+    </p>
 
-  <div class="team-grid">
-    <div class="team-card">
-      <div class="avatar">CE</div>
-      <h3>Charan Elam</h3>
-      <p class="role">COMP 381 Student</p>
-      <a class="github-link" href="https://github.com/CharanElam" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        @CharanElam
-      </a>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="pipe-number">1</div>
+        <h3>Data Exploration</h3>
+        <p>Inspected image counts (437 benign, 210 malignant), verified class distribution, and examined image dimensions across the dataset.</p>
+        <span class="chip">01-data-exploration.ipynb</span>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-number">2</div>
+        <h3>Feature Extraction</h3>
+        <p>VGG16 (ImageNet weights, classification head removed) processes each 224&times;224 image into a 7&times;7&times;512 feature map, saved as <code>.npy</code> arrays.</p>
+        <span class="chip">02-data-processing.ipynb</span>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-number">3</div>
+        <h3>Supervised Training</h3>
+        <p>StandardScaler &rarr; PCA(70) &rarr; 80/20 split &rarr; Logistic Regression, KNN, and SVM trained and evaluated with confusion matrices, ROC curves, and AUC.</p>
+        <span class="chip">03-model-training.ipynb</span>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-number">4</div>
+        <h3>Unsupervised Clustering</h3>
+        <p>ResNet50 extracts 2048-dim features per image. K-Means with k=2 and k=3 clusters images; PCA (2 components) visualizes cluster separation.</p>
+        <span class="chip">04-unsupervised-model.ipynb</span>
+      </div>
     </div>
 
-    <div class="team-card">
-      <div class="avatar">DE</div>
-      <h3>Diana Emal</h3>
-      <p class="role">COMP 381 Student</p>
-      <a class="github-link" href="https://github.com/dianaemal" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        @dianaemal
-      </a>
+    <div class="dataset-note">
+      <strong>Dataset:</strong> ~647 breast ultrasound PNG images. Raw images are not stored in this repository. &nbsp;
+      <a href="https://drive.google.com/drive/folders/1VtW8dB1ru4QY1O1aw2skS9j_eg44t-zR?usp=sharing" target="_blank">Download from Google Drive &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ── Results ── -->
+  <section id="results">
+    <p class="section-label">Evaluation</p>
+    <h2>Model Results</h2>
+    <p class="section-intro">
+      All models evaluated on a held-out test set of 130 images (20% of the full dataset).
+      Metrics are reported for the malignant (positive) class.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1 Score</th>
+            <th>AUC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="model-name">Logistic Regression</div>
+              <div class="model-sub">threshold = 0.5</div>
+            </td>
+            <td>
+              <div class="bar-wrap">
+                <span class="bar-num best">89.2%</span>
+                <div class="bar-bg"><div class="bar-fill" style="width:89.2%"></div></div>
+              </div>
+            </td>
+            <td>0.800</td>
+            <td>0.800</td>
+            <td>0.800</td>
+            <td class="best">0.863</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="model-name">Logistic Regression</div>
+              <div class="model-sub">threshold = 0.3 &mdash; higher recall variant</div>
+            </td>
+            <td>
+              <div class="bar-wrap">
+                <span class="bar-num">83.8%</span>
+                <div class="bar-bg"><div class="bar-fill" style="width:83.8%; opacity:0.55"></div></div>
+              </div>
+            </td>
+            <td>0.646</td>
+            <td class="best">0.886</td>
+            <td>0.747</td>
+            <td>0.853</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="model-name">K-Nearest Neighbors</div>
+              <div class="model-sub">k = 7</div>
+            </td>
+            <td>
+              <div class="bar-wrap">
+                <span class="bar-num">84.6%</span>
+                <div class="bar-bg"><div class="bar-fill" style="width:84.6%; opacity:0.55"></div></div>
+              </div>
+            </td>
+            <td>0.727</td>
+            <td>0.686</td>
+            <td>0.706</td>
+            <td>0.795</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="model-name">Support Vector Machine</div>
+              <div class="model-sub">RBF kernel, C = 10</div>
+            </td>
+            <td>
+              <div class="bar-wrap">
+                <span class="bar-num best">89.2%</span>
+                <div class="bar-bg"><div class="bar-fill" style="width:89.2%"></div></div>
+              </div>
+            </td>
+            <td class="best">0.818</td>
+            <td>0.771</td>
+            <td class="best">0.794</td>
+            <td>0.854</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="team-card">
-      <div class="avatar">SE</div>
-      <h3>Sana Elhag</h3>
-      <p class="role">COMP 381 Student</p>
-      <a class="github-link" href="https://github.com/SanaElhag" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        @SanaElhag
-      </a>
+    <div class="clinical-note">
+      <strong>Clinical note &mdash;</strong>
+      In a medical screening context, failing to detect a malignant case carries far greater risk than a false positive.
+      The threshold-0.3 Logistic Regression achieves the highest malignant recall (88.6%) at the cost of overall accuracy,
+      making it the most clinically conservative choice among the models evaluated.
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- ── Charts ── -->
+  <section id="charts">
+    <p class="section-label">Visualizations</p>
+    <h2>Result Charts</h2>
+    <p class="section-intro">
+      Confusion matrices, ROC curves, and metric comparisons across all models.
+    </p>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>Confusion Matrices</h3>
+          <p>Predicted vs. true labels for each model on the test set</p>
+        </div>
+        <img src="images/confusion_matrices.png" alt="Confusion matrices for all models" loading="lazy" />
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>ROC Curve Comparison</h3>
+          <p>LogReg AUC 0.86 &nbsp;&middot;&nbsp; SVM AUC 0.85 &nbsp;&middot;&nbsp; KNN AUC 0.80</p>
+        </div>
+        <img src="images/roc_curves.png" alt="ROC curves comparing all models" loading="lazy" />
+      </div>
+
+      <div class="chart-card wide">
+        <div class="chart-header">
+          <h3>Metric Comparisons</h3>
+          <p>Accuracy, Recall, Precision, and F1 Score across all four models</p>
+        </div>
+        <img src="images/comparisons.png" alt="Bar chart comparison of all metrics across models" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Team ── -->
+  <section id="team">
+    <p class="section-label">Contributors</p>
+    <h2>Meet the Team</h2>
+    <p class="section-intro">
+      Built for COMP 381 &mdash; Introduction to Machine Learning at the University of the Fraser Valley.
+    </p>
+
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="avatar">CE</div>
+        <h3>Charan Elam</h3>
+        <p class="role">COMP 381 Student</p>
+        <a class="github-link" href="https://github.com/CharanElam" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          @CharanElam
+        </a>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">DE</div>
+        <h3>Diana Emal</h3>
+        <p class="role">COMP 381 Student</p>
+        <a class="github-link" href="https://github.com/dianaemal" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          @dianaemal
+        </a>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">SE</div>
+        <h3>Sana Elhag</h3>
+        <p class="role">COMP 381 Student</p>
+        <a class="github-link" href="https://github.com/SanaElhag" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          @SanaElhag
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end page-body -->
 
 <!-- ── Footer ── -->
 <footer>
-  <p>
-    COMP 381 &mdash; Introduction to Machine Learning &middot;
-    University of the Fraser Valley &middot; 2025
-  </p>
-  <p style="margin-top:0.4rem;">
-    <a href="https://github.com/CharanElam/breast-cancer-analysis" target="_blank">GitHub Repository</a>
-  </p>
+  <div class="footer-inner">
+    <p>COMP 381 &mdash; Introduction to Machine Learning &nbsp;&middot;&nbsp; University of the Fraser Valley &nbsp;&middot;&nbsp; 2025</p>
+    <p><a href="https://github.com/CharanElam/breast-cancer-analysis" target="_blank">github.com/CharanElam/breast-cancer-analysis</a></p>
+  </div>
 </footer>
 
 </body>
